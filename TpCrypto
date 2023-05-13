@@ -1,0 +1,37 @@
+#http://hmalherbe.fr/thalesm/gestclasse/documents/Terminale_NSI/2020-2021/TP/TP_Term_NSI_cryptographie/TP_Term_NSI_cryptographie.html
+
+
+
+#Q1:
+
+
+
+#Q2:Ecrire le corps de la fonction convertit_texte_en_binaire(texte) qui convertit la chaine de caractères ASCII texte passée en 
+# paramètre en une chaine binaire et retourne cette chaine binaire. Chaque caractère sera représenté par son code ASCII en binaire sur un octet.
+def convertit_texte_en_binaire(texte):
+    binaire = ""
+    for char in texte:
+        ascii_code = ord(char) # conversion du caractère en code ASCII
+        binaire += format(ascii_code, '08b') # formatage binaire sur un octet
+    return binaire
+
+#print(convertit_texte_en_binaire('NSI'))
+
+
+
+#Q3:Ecrire le corps de la fonction convertit_binaire_vers_entier_base_10(chaine_binaire) qui convertit la chaine binaire chaine_binaire passée 
+# en paramètre en le nombre décimal correspondant et retourne ce nombre décimal.
+
+
+def convertit_binaire_vers_entier_base_10(chaine_binaire):
+    decimal = 0
+    for i in range(len(chaine_binaire)):
+        if chaine_binaire[i] == '1':
+            decimal += 2**(len(chaine_binaire)-1-i)
+    return decimal
+
+print(convertit_binaire_vers_entier_base_10("01001110")) # doit affiche 78
+
+    
+
+
