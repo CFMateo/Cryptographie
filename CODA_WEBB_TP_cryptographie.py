@@ -152,7 +152,7 @@ def genere_clefs_publique_et_privee(a1, b1, a2, b2):
     e = a2 * M + a1
     d = b2 * M + b1
     n = (e * d - 1) // M
-    return (n, e), (n, d)
+    return (e,n), (d,n)
 
 def chiffre_message(message, clef):
     """
@@ -161,8 +161,8 @@ def chiffre_message(message, clef):
     Pour chiffrer un message représenté par un entier m plus petit que n, on effectue l'opération e x m (modulo n).
     """
     message_chiffre = []
-    n = clef[0]
-    e = clef[1]
+    n = clef[1]
+    e = clef[0]
     for caractere in message:
         ascii_code = ord(caractere)
         lettrechiffree = (e*ascii_code)%n
@@ -177,8 +177,8 @@ def dechiffre_message(messageChiffre, clef):
 
     """
     message_dechiffre = ""
-    d = clef[1]
-    n = clef[0]
+    d = clef[0]
+    n = clef[1]
     for el in messageChiffre:
         lettreDechifree = chr((d*el)%n)
         message_dechiffre += str(lettreDechifree)
