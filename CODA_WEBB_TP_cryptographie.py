@@ -143,7 +143,7 @@ print(chiffre_xor("SPECIALITE NSI", "TERM"))
 # M=a1*b1-1=5*3-1= 14 ; e=a2*M+a1=7*14+5= 103 ; d=b2*M+b1= 5*14+3= 73 ; n=(e×d-1)/M=(103*73-1)/14= 537
 # La clé publique est (e,n) soit (103,537) et La clef secrète est (d,n) soit (73,537)
 # Le code ASCII de la lettre 'a' en minuscule est 97. Comme m < n: on efectue e x m (modulo n): e * 97 % n = 103 * 97 % 537 = 325
-# On a bien m = 325 * 73 % 537 = 97 ; On retrouve bien le code ASCII de la lettre 'a'.
+# La clef privée est: (73,537), on sait que pour déchiffrer on effectue l'opération d x m (modulo n) = 73*325%537 = 97; On retrouve bien le code ASCII de la lettre 'a'.
 
 
 # ? Question 8
@@ -154,24 +154,40 @@ def genere_clefs_publique_et_privee(a1, b1, a2, b2):
     n = (e * d - 1) // M
     return (n, e), (n, d)
 
-def chiffre_message(m, clef_publique):
+def chiffre_message(message, clef):
+    """
+    chiffre un message m qui est une chaîne de caractères avec la clef,
+      en remplaçant chaque caractère par son code ASCII en décimal.
+    Pour chiffrer un message représenté par un entier m plus petit que n, on effectue l'opération e x m (modulo n).
+    """
     message_chiffre = []
-    for caractere in m:
+    n = clef[0]
+    e = clef[1]
+    for caractere in message:
         ascii_code = ord(caractere)
-        message_chiffre_temp = pow(ascii_code, clef_publique[1], clef_publique[0])
-        message_chiffre.append(message_chiffre_temp)
+        lettrechiffree = (e*ascii_code)%n
+        message_chiffre.append(lettrechiffree)
     return message_chiffre
 
-def dechiffre_message(m, clef_privee):
+def dechiffre_message(messageChiffre, clef):
+    """
+    déchiffre un message m qui est une liste de nombres et renvoie le message 
+    déchiffré sous la forme d'une chaîne de caractères.
+    Pour déchiffrer un message représenté par un entier m plus petit que n, on effectue l'opération d x m (modulo n)
+
+    """
     message_dechiffre = ""
-    for code_ascii in m:
-        caractere = chr(pow(code_ascii, clef_privee[1], clef_privee[0]))
-        message_dechiffre += caractere
+    d = clef[1]
+    n = clef[0]
+    for el in messageChiffre:
+        lettreDechifree = chr((d*el)%n)
+        message_dechiffre += str(lettreDechifree)
     return message_dechiffre
 
 # Exemple avec a1=5, b1=3, a2=7 et b2=5
 clef_publique, clef_privee = genere_clefs_publique_et_privee(5, 3, 7, 5)
-message = "a"
+message = "wop wop "
+
 message_chiffre = chiffre_message(message, clef_publique)
 message_dechiffre = dechiffre_message(message_chiffre, clef_privee)
 
