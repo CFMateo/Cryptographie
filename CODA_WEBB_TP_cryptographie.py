@@ -61,6 +61,32 @@ def convertit_binaire_vers_entier_base_10(chaine_binaire):
 
 
 # ? Question 4
+
+
+def convertit_binaire_en_texte(chaine_binaire):
+    """_summary_
+
+    Args:
+        chaine_binaire (_type_): _description_
+
+    Tests:
+    >>> convertit_binaire_en_texte("010011100101001101001001")
+    'NSI'
+    """
+    # on crée une copie afin de ne pas modifier la chaine binaire de base
+    cb = chaine_binaire
+    texte = ''
+
+    # itération sur les octets
+    while len(cb) > 0:
+        # on convertit le code ascii (nombre décimal) du premier octet de la chaine en texte puis on l'ajoute a texte.
+        texte += chr(convertit_binaire_vers_entier_base_10(cb[:8]))
+        # On enlève le premier octet de la chaine de manière a répéter cette opération sur le prochain octet
+        cb = cb[8:]
+
+    return texte
+
+
 # ? Question 5
 # ? Question 6
 # ? Question 7
