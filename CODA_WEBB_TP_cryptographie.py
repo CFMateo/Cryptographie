@@ -1,5 +1,5 @@
 """ Utiliser doctests"""
-
+#! https://github.com/mformenace/Cryptographie/issues/1
 '''
 # ? Question 1
 
@@ -136,8 +136,6 @@ print(chiffre_xor("SPECIALITE NSI", "TERM"))
 # ? Question 6
 
 
-
-
 # ? Question 7 : Prenons a1=5 , b1=3 , a2=7 et b2=5
 
 # M=a1*b1-1=5*3-1= 14 ; e=a2*M+a1=7*14+5= 103 ; d=b2*M+b1= 5*14+3= 73 ; n=(e×d-1)/M=(103*73-1)/14= 537
@@ -152,7 +150,8 @@ def genere_clefs_publique_et_privee(a1, b1, a2, b2):
     e = a2 * M + a1
     d = b2 * M + b1
     n = (e * d - 1) // M
-    return (e,n), (d,n)
+    return (e, n), (d, n)
+
 
 def chiffre_message(message, clef):
     """
@@ -165,9 +164,10 @@ def chiffre_message(message, clef):
     e = clef[0]
     for caractere in message:
         ascii_code = ord(caractere)
-        lettrechiffree = (e*ascii_code)%n
+        lettrechiffree = (e*ascii_code) % n
         message_chiffre.append(lettrechiffree)
     return message_chiffre
+
 
 def dechiffre_message(messageChiffre, clef):
     """
@@ -180,9 +180,10 @@ def dechiffre_message(messageChiffre, clef):
     d = clef[0]
     n = clef[1]
     for el in messageChiffre:
-        lettreDechifree = chr((d*el)%n)
+        lettreDechifree = chr((d*el) % n)
         message_dechiffre += str(lettreDechifree)
     return message_dechiffre
+
 
 # Exemple avec a1=5, b1=3, a2=7 et b2=5
 clef_publique, clef_privee = genere_clefs_publique_et_privee(5, 3, 7, 5)
@@ -198,16 +199,10 @@ print("Message chiffré :", message_chiffre)
 print("Message déchiffré :", message_dechiffre)
 
 
-
 # ? Question 9
-
-
-
-# ? Question 10
-# ? Question 11
-# ? Question 12
-# ? Question 13
-# ? Question 14
+# valeur clef publique:
+print(genere_clefs_publique_et_privee(13, 32, 69, 35))
+# valeur clef privhttps://github.com/mformenace/Cryptographie/issues/1
 '''if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
