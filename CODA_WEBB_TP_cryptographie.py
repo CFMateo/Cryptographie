@@ -99,9 +99,9 @@ def xor(a, b):
     Returns:
         _type_: _description_
     """
-    if not a == b:
-        return '1'
-    return '0'
+    if a == b:
+        return '0'
+    return '1'
 
 
 def chiffre_xor(chaine_binaire, clef_binaire):
