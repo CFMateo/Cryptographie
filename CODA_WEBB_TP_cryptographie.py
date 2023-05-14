@@ -88,6 +88,51 @@ def convertit_binaire_en_texte(chaine_binaire):
 
 
 # ? Question 5
+
+def xor(a, b):
+    """
+    Implementation du xor avec des 0 et 1
+    Args:
+        a (_type_): _description_
+        b (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if not a == b:
+        return '1'
+    return '0'
+
+
+def chiffre_xor(chaine_binaire, clef_binaire):
+    """
+    Args:
+        chaine_binaire (_type_): _description_ 
+        clef_binaire (_type_): _description_
+
+    Test:
+    >>> chiffre_xor("SPECIALITE NSI", "TERM")
+    '0000011100010101000101110000111000011101000001000001111000000100000000000000000001110010000000110000011100001100'
+    """
+    chb = convertit_texte_en_binaire(chaine_binaire)
+    clb = convertit_texte_en_binaire(clef_binaire)
+    chaine_binaire_chiffree = ''
+
+    # extension de la clef pour faire la meme taille que la chaine:
+    while len(chb) - len(clb) > 0:
+        for i in clb:
+            clb += i
+
+    # on ajoute le résultat du xor entre les deux éléments a la chaine finale
+    for i in range(len(chb)):
+        chaine_binaire_chiffree += xor(chb[i], clb[i])
+
+    return chaine_binaire_chiffree
+
+
+print(chiffre_xor("SPECIALITE NSI", "TERM"))
+
+
 # ? Question 6
 # ? Question 7
 # ? Question 8
