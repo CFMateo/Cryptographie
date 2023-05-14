@@ -1,6 +1,6 @@
 """ Utiliser doctests"""
 
-
+'''
 # ? Question 1
 
 # A = 0, B = 0 --> XOR(A,B) = 0 donc XOR(XOR(A,B),B) = XOR(0,0) = 0
@@ -131,17 +131,68 @@ def chiffre_xor(chaine_binaire, clef_binaire):
 
 
 print(chiffre_xor("SPECIALITE NSI", "TERM"))
-
+'''
 
 # ? Question 6
-# ? Question 7
+
+
+
+
+# ? Question 7 : Prenons a1=5 , b1=3 , a2=7 et b2=5
+
+# M=a1*b1-1=5*3-1= 14 ; e=a2*M+a1=7*14+5= 103 ; d=b2*M+b1= 5*14+3= 73 ; n=(e×d-1)/M=(103*73-1)/14= 537
+# La clé publique est (e,n) soit (103,537) et La clef secrète est (d,n) soit (73,537)
+# Le code ASCII de la lettre 'a' en minuscule est 97. Comme m < n: on efectue e x m (modulo n): e * 97 % n = 103 * 97 % 537 = 325
+# On a bien m = 325 * 73 % 537 = 97 ; On retrouve bien le code ASCII de la lettre 'a'.
+
+
 # ? Question 8
+def genere_clefs_publique_et_privee(a1, b1, a2, b2):
+    M = a1 * b1 - 1
+    e = a2 * M + a1
+    d = b2 * M + b1
+    n = (e * d - 1) // M
+    return (n, e), (n, d)
+
+def chiffre_message(m, clef_publique):
+    message_chiffre = []
+    for caractere in m:
+        ascii_code = ord(caractere)
+        message_chiffre_temp = pow(ascii_code, clef_publique[1], clef_publique[0])
+        message_chiffre.append(message_chiffre_temp)
+    return message_chiffre
+
+def dechiffre_message(m, clef_privee):
+    message_dechiffre = ""
+    for code_ascii in m:
+        caractere = chr(pow(code_ascii, clef_privee[1], clef_privee[0]))
+        message_dechiffre += caractere
+    return message_dechiffre
+
+# Exemple avec a1=5, b1=3, a2=7 et b2=5
+clef_publique, clef_privee = genere_clefs_publique_et_privee(5, 3, 7, 5)
+message = "a"
+message_chiffre = chiffre_message(message, clef_publique)
+message_dechiffre = dechiffre_message(message_chiffre, clef_privee)
+
+print("Clef publique :", clef_publique)
+print("Clef privée :", clef_privee)
+print("Message initial :", message)
+print("Message chiffré :", message_chiffre)
+print("Message déchiffré :", message_dechiffre)
+
+
+
 # ? Question 9
+
+
+
 # ? Question 10
 # ? Question 11
 # ? Question 12
 # ? Question 13
 # ? Question 14
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
+'''
