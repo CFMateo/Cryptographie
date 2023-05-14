@@ -203,6 +203,12 @@ print("Message déchiffré :", message_dechiffre)
 # valeur clef publique:
 print(genere_clefs_publique_et_privee(13, 32, 69, 35))
 # valeur clef privhttps://github.com/mformenace/Cryptographie/issues/1
+
+# ? Question 10
+# ? Question 11
+# ? Question 12
+# ? Question 13
+# ? Question 14
 '''if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
