@@ -180,6 +180,7 @@ def dechiffre_message(messageChiffre, clef):
     d = clef[0]
     n = clef[1]
     for el in messageChiffre:
+
         lettreDechifree = chr((d*el) % n)
         message_dechiffre += str(lettreDechifree)
     return message_dechiffre
@@ -200,15 +201,69 @@ print("Message déchiffré :", message_dechiffre)
 
 
 # ? Question 9
-# valeur clef publique:
-print(genere_clefs_publique_et_privee(13, 32, 69, 35))
-# valeur clef privhttps://github.com/mformenace/Cryptographie/issues/1
+# valeur clef publique:(28648, 1004889)
+
+# valeur clef priv: (14557, 1004889)
+
+# [224766, 368006, 81526]
+# print(chiffre_message("NSI", (28648, 1004889)))
+
+# message déchifré: print(dechiffre_message([224766, 368006, 81526], (14557, 1004889))) return bien "NSI"
+
 
 # ? Question 10
+
+def bruteForceKidRSA(e, n):
+
+    d = 0
+    # d <= n might not be needed as i think return will always happen beforehand
+    while d <= n:
+        print(d)
+
+        if (e*d-1) % n == 0:
+            return d
+        d += 1
+
+
 # ? Question 11
+# print(bruteForceKidRSA(53447, 5185112)) donc 323639
+print(dechiffre_message([3580949, 2084433, 3687843, 4436101, 4489548, 1710304, 4329207, 4542995, 3901631, 1710304, 4061972, 3687843, 1710304,
+      3527502, 4222313, 4436101, 4436101, 1710304, 3687843, 4168866, 1710304, 4168866, 4436101, 3901631, 1710304, 3367161], (323639, 5185112)))
+# message: C'EST QUI LE BOSS EN NSI ?
+
 # ? Question 12
+
+# print(bruteForceKidRSA(230884490440319, 194326240259798261076))
+# Le programme est extrêment lent
 # ? Question 13
+
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b//a)*y, y)
+
+
+def modinv(e, n):
+    g, x, y = egcd(e, n)
+    if g != 1:
+        return False
+    else:
+        return x % n
+
+
+print(modinv(19432624025979826176, 230884490440319))
+# return 90707445330952 qui est d
+
+print(dechiffre_message([16623683311702968, 19625181687427115, 16392798821262649, 16392798821262649, 20548719649188391, 7388303694090208, 17547221273464244, 15931029840382011, 19163412706546477, 7388303694090208, 15238376369061054, 18239874744785201,
+      18008990254344882, 19163412706546477, 7388303694090208, 19394297196986796, 19625181687427115, 20548719649188391, 15007491878620735, 19625181687427115, 20317835158748072, 7388303694090208, 7619188184530527], (90707445330952, 230884490440319)))
 # ? Question 14
+
+
+# La taille des clefs courament utilisées par la RSA pour sécuriser des données sur internet sont entre 2048 et 4096 bits
+# La nouvelle technologie qui permetrait de casser la RSA en quelques secondes se nomme la cryptographie quantique
 '''if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
