@@ -1,6 +1,6 @@
 """ Utiliser doctests"""
 #! https://github.com/mformenace/Cryptographie/issues/1
-'''
+
 # ? Question 1
 
 # A = 0, B = 0 --> XOR(A,B) = 0 donc XOR(XOR(A,B),B) = XOR(0,0) = 0
@@ -131,7 +131,7 @@ def chiffre_xor(chaine_binaire, clef_binaire):
 
 
 print(chiffre_xor("SPECIALITE NSI", "TERM"))
-'''
+
 
 # ? Question 6
 
