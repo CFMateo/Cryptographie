@@ -178,10 +178,13 @@ def dechiffre_message(messageChiffre, clef):
     """
     message_dechiffre = ""
     d = clef[0]
+    print(d)
     n = clef[1]
     for el in messageChiffre:
-
+        print(d*el)
+        # ISSUE: chr ne marche pas ici je crois
         lettreDechifree = chr((d*el) % n)
+
         message_dechiffre += str(lettreDechifree)
     return message_dechiffre
 
