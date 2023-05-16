@@ -2,6 +2,7 @@
 #! https://github.com/mformenace/Cryptographie/issues/1
 
 # ? Question 1
+# ? Question 1
 
 # A = 0, B = 0 --> XOR(A,B) = 0 donc XOR(XOR(A,B),B) = XOR(0,0) = 0
 # A = 1, B = 0 --> XOR(A,B) = 1 donc XOR(XOR(A,B),B) = XOR(1,0) = 1
@@ -11,36 +12,28 @@
 
 # ? Question 2
 
-
 def convertit_texte_en_binaire(texte):
     """
-    (talk about ord and bin)
-    on doit avoir un octet par defaut, c'est pour cela que je normalise la taille de 'binaire'.
+    Convertit un texte en une chaîne binaire représentant les codes ASCII des caractères.
 
     Args:
-        texte (_type_): _description_
+        texte (str): Le texte à convertir.
 
     Returns:
-        _type_: _description_
+        str: La chaîne binaire représentant le texte.
 
-    Tests: (add some)
-
+    Tests:
     >>> convertit_texte_en_binaire("NSI")
     '010011100101001101001001'
-
     """
     chaine_binaire = ''
     for el in texte:
-        # iteration dans texte
         code_ascii = ord(el)
-        # le slice ci-dessous sert a retirer le préfixe par défaut pour les nombres binaires de python '0b'
         binaire = bin(code_ascii)[2:]
 
-        # normalisation de l'octet en ajoutant des zéros a gauche s'il le faut
         while len(binaire) < 8:
             binaire = '0' + binaire
 
-        # on ajoute le nouvel élément binaire a la chaine
         chaine_binaire += binaire
     return chaine_binaire
 
@@ -48,10 +41,14 @@ def convertit_texte_en_binaire(texte):
 # ? Question 3
 
 def convertit_binaire_vers_entier_base_10(chaine_binaire):
-    """_summary_
+    """
+    Convertit une chaîne binaire en un entier de base 10.
 
     Args:
-        chaine_binaire (_type_): _description_
+        chaine_binaire (str): La chaîne binaire à convertir.
+
+    Returns:
+        int: L'entier de base 10.
 
     Tests:
     >>> convertit_binaire_vers_entier_base_10("01001110")
@@ -62,26 +59,25 @@ def convertit_binaire_vers_entier_base_10(chaine_binaire):
 
 # ? Question 4
 
-
 def convertit_binaire_en_texte(chaine_binaire):
-    """_summary_
+    """
+    Convertit une chaîne binaire représentant des codes ASCII en un texte.
 
     Args:
-        chaine_binaire (_type_): _description_
+        chaine_binaire (str): La chaîne binaire à convertir.
+
+    Returns:
+        str: Le texte converti.
 
     Tests:
     >>> convertit_binaire_en_texte("010011100101001101001001")
     'NSI'
     """
-    # on crée une copie afin de ne pas modifier la chaine binaire de base
     cb = chaine_binaire
     texte = ''
 
-    # itération sur les octets
     while len(cb) > 0:
-        # on convertit le code ascii (nombre décimal) du premier octet de la chaine en texte puis on l'ajoute a texte.
         texte += chr(convertit_binaire_vers_entier_base_10(cb[:8]))
-        # On enlève le premier octet de la chaine de manière a répéter cette opération sur le prochain octet
         cb = cb[8:]
 
     return texte
@@ -91,17 +87,20 @@ def convertit_binaire_en_texte(chaine_binaire):
 
 def xor(a, b):
     """
-    Implementation du xor avec des 0 et 1
+    Implémentation de l'opération XOR entre deux valeurs.
+
     Args:
-        a (_type_): _description_
-        b (_type_): _description_
+        a (str): La première valeur.
+        b (str): La deuxième valeur.
 
     Returns:
-        _type_: _description_
+        str: Le résultat de l'opération XOR.
+
     """
     if a == b:
         return '0'
     return '1'
+
 
 
 def chiffre_xor(chaine_binaire, clef_binaire):
@@ -168,25 +167,28 @@ def chiffre_message(message, clef):
         message_chiffre.append(lettrechiffree)
     return message_chiffre
 
-
 def dechiffre_message(messageChiffre, clef):
     """
     déchiffre un message m qui est une liste de nombres et renvoie le message 
     déchiffré sous la forme d'une chaîne de caractères.
     Pour déchiffrer un message représenté par un entier m plus petit que n, on effectue l'opération d x m (modulo n)
 
+    Args:
+        messageChiffre (list): Le message chiffré sous forme de liste de nombres.
+        clef (tuple): La clé de déchiffrement (d, n).
+
+    Returns:
+        str: Le message déchiffré.
+
     """
     message_dechiffre = ""
     d = clef[0]
-    print(d)
     n = clef[1]
     for el in messageChiffre:
-        print((d*el) % n)
-        # ISSUE: chr ne marche pas ici je crois
-        lettreDechifree = chr((d*el) % n)
-
-        message_dechiffre += str(lettreDechifree)
+        lettreDechifree = chr((d * el) % n)
+        message_dechiffre += lettreDechifree
     return message_dechiffre
+
 
 
 # Exemple avec a1=5, b1=3, a2=7 et b2=5
@@ -215,15 +217,24 @@ print("Message déchiffré :", message_dechiffre)
 
 
 # ? Question 10
-
 def bruteForceKidRSA(e, n):
+    """
+    Effectue une attaque par force brute pour trouver la clé privée 'd' dans l'algorithme RSA.
 
+    Args:
+        e (int): L'exposant de la clé publique.
+        n (int): Le module.
+
+    Returns:
+        int: La clé privée 'd'.
+
+    """
     d = 0
-    # d <= n might not be needed as i think return will always happen beforehand
+    # d <= n pourrait ne pas être nécessaire car je pense que le retour se produira toujours avant
     while d <= n:
         print(d)
 
-        if (e*d-1) % n == 0:
+        if (e * d - 1) % n == 0:
             return d
         d += 1
 
@@ -234,22 +245,45 @@ print(dechiffre_message([3580949, 2084433, 3687843, 4436101, 4489548, 1710304, 4
       3527502, 4222313, 4436101, 4436101, 1710304, 3687843, 4168866, 1710304, 4168866, 4436101, 3901631, 1710304, 3367161], (323639, 5185112)))
 # message: C'EST QUI LE BOSS EN NSI ?
 
+
+
 # ? Question 12
 
 # print(bruteForceKidRSA(230884490440319, 194326240259798261076))
-# Le programme est extrêment lent
+# Le programme est extrêmement lent
 # ? Question 13
 
-
 def egcd(a, b):
+    """
+    Effectue l'algorithme d'Euclide étendu pour calculer le plus grand commun diviseur (PGCD) et les coefficients de Bézout.
+
+    Args:
+        a (int): Le premier entier.
+        b (int): Le deuxième entier.
+
+    Returns:
+        Tuple[int, int, int]: Le PGCD et les coefficients de Bézout (g, x, y) tels que g = PGCD(a, b) et ax + by = g.
+
+    """
     if a == 0:
         return (b, 0, 1)
     else:
         g, y, x = egcd(b % a, a)
-        return (g, x - (b//a)*y, y)
+        return (g, x - (b // a) * y, y)
 
 
 def modinv(e, n):
+    """
+    Calcule l'inverse modulaire de e modulo n.
+
+    Args:
+        e (int): L'entier dont on veut calculer l'inverse modulaire.
+        n (int): Le modulo.
+
+    Returns:
+        Union[int, bool]: L'inverse modulaire de e modulo n si celui-ci existe, False sinon.
+
+    """
     g, x, y = egcd(e, n)
     if g != 1:
         return False
@@ -262,7 +296,7 @@ print(modinv(230884490440319, 19432624025979826176))  # ne
 # return 90707445330952 qui est d
 
 print(dechiffre_message([16623683311702968, 19625181687427115, 16392798821262649, 16392798821262649, 20548719649188391, 7388303694090208, 17547221273464244, 15931029840382011, 19163412706546477, 7388303694090208, 15238376369061054, 18239874744785201,
-      18008990254344882, 19163412706546477, 7388303694090208, 19394297196986796, 19625181687427115, 20548719649188391, 15007491878620735, 19625181687427115, 20317835158748072, 7388303694090208, 7619188184530527], (230884490440319, 90707445330952)))
+      18008990254344882, 19163412706546477, 7388303694090208, 19394297196986796, 19625181687427115, 20548719649188391, 15007491878620735, 19625181687427115, 20317835158748072, 7388303694090208, 7619188184530527], (9070744533095 , 230884490440319)))
 # ? Question 14
 
 
